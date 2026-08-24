@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEDICAMENTOS</title>
+</head>
+<body>
+
+    <h1>MEDICAMENTOS</h1>
+
+    <h2>Agregar Medicamento</h2>
+
+    <form id="formMedicamento">
+
+        <label for="nombre">
+            Nombre:
+        </label>
+
+        <input 
+        type="text"
+        id="nombre"
+        name="nombre"
+        required
+        >
+
+        <br><br>
+
+        <label for="cantidad">
+            Cantidad:
+        </label>
+
+        <input 
+        type="number"
+        id="cantidad"
+        name="cantidad"
+        min="1"
+        required
+        >
+
+        <br><br>
+
+        <label for="gramaje">
+            Gramaje:
+        </label>
+
+        <input 
+        type="text"
+        id="gramaje"
+        name="gramaje"
+        placeholder="Ej. 500 MG"
+        required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Agregar Medicamento.
+        </button>
+
+    </form>
+
+    <hr>
+
+    <h2>Lista de medicamentos</h2>
+
+    <div id="listaMedicamentos"> 
+        Cargando medicamentos...
+    </div>
+    
+    <!-- <script src="medicamentos.js"></script> -->
+    
+   <script src="medicamentos.js?v=3"></script>
+
+
+</body>
+</html>

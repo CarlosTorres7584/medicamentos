@@ -14,11 +14,14 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// PRIMERO las rutas
-app.use('/', routes);
 
 // DESPUÉS los archivos estáticos
 app.use(express.static('views'));
+
+
+// PRIMERO las rutas
+app.use('/', routes);
+
 
 app.listen(3000, () => {
     console.log("Servidor en http://localhost:3000");
