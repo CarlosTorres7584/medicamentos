@@ -1,5 +1,7 @@
 const medicamentoModel = require('../models/medicamentoModel');
 
+//////////////////FUNCION OBTENER TODOS///////////////////////////////
+
 exports.obtenerTodos = (req, res) => {
 
     medicamentoModel.obtenerTodos((err, medicamentos) => {
@@ -16,12 +18,12 @@ exports.obtenerTodos = (req, res) => {
     });
 };
 
-///funcion agregar//////////
+////////////////////FUNCION AGREGAR///////////////////////////////
+
 exports.agregar = (req, res) =>{
 
     const {nombre, cantidad, gramaje} = req.body;
 
-    
     const nombreLimpio = nombre.trim().toUpperCase();
 
     if(!/^[A-ZÁÉÍÓÚÜÑ ]+$/.test(nombreLimpio)) {
@@ -37,14 +39,14 @@ exports.agregar = (req, res) =>{
             error: "Gramaje solo permite letras y numeros"
         })
     }
-    const cantidadNumero = Number(cantidad);
-    
 
     if(!nombre.trim() || cantidad === undefined || !gramaje.trim()) {
         return res.status(400).json({
             error: "Todos los campos son obligatorios"
         });
     }
+    
+    const cantidadNumero = Number(cantidad);
 
     if(isNaN(cantidadNumero)){
         return res.status(400).json({
@@ -58,21 +60,34 @@ exports.agregar = (req, res) =>{
         });
     }
 
+    medicamentoModel.existe (nombreLimpio, gramajeLimpio, (err, medicamentoExistente) => {
+
+        if (err){
+            return res.status(500).json({
+                error: "Error al consultar el medicamento"
+            });
+        }
+
+        if (medicamentoExistente){
+            return res.status(400).json({
+                error: "Medicamento ya existe"
+            });
+        }
 
 
-    medicamentoModel.agregar(
-        nombreLimpio, cantidadNumero, gramajeLimpio, (err) => {
+    medicamentoModel.agregar(nombreLimpio, cantidadNumero, gramajeLimpio, (err) => {
 
-            if (err){
+        if (err){
                 console.error(err);
                 return res.status(500).json({
                     error: "Error al agregar medicamento"
                 });
             }
-
             res.json({
                 mensaje: "Medicamento agregado con exito"
             });
         }
     );
-};
+
+})
+}
