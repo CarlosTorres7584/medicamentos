@@ -59,16 +59,40 @@ async function cargarMedicamentos(){
 
         const elemento = document.createElement('div');
 
+        elemento.className = 'medicamento';
+
         elemento.innerHTML = `
         <strong>${medicamento.nombre}</strong>
         <br>
         Cantidad: ${medicamento.cantidad}
         <br>
         Gramaje: ${medicamento.gramaje}
-        `;
+        <br>
+        <button class="btnEliminar" data-id="${medicamento.id}">
+        ELIMINAR
+        </button>
+        `;   
 
-        lista.appendChild(elemento);
+        const botonEliminar = elemento.querySelector('.btnEliminar');
+        botonEliminar.addEventListener('click', async () => {
+            const id = botonEliminar.dataset.id;
 
+            console.log("id:", id);
+            console.log("url:",`/medicamentos/${id}`);
+            const respuesta = await fetch(`/medicamentos/${id}`,{
+                method: 'DELETE'
+            });
+
+            const resultado = await respuesta.json();
+
+            console.log(resultado);
+
+            cargarMedicamentos();        
+        });
+
+        lista.appendChild(elemento);  
+        
+        
     });
 
     console.log(medicamentos);

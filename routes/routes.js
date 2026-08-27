@@ -19,4 +19,16 @@ router.get('/prueba', verificarSesion, (req, res) => {
     });
 });
 
+router.delete('/medicamentos/:id', verificarSesion, medicamentoController.eliminar)
+
+//router.delete('/medicamentos/:id',(req, res)=>{
+//    console.log("llego el delete");
+  //  console.log("id:", req.params.id);
+//
+   // res.json({
+     //   mensaje: "delete funciona",
+       // id: req.params.id
+//    })
+//})
+
 module.exports = router;

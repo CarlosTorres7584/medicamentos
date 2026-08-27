@@ -89,5 +89,32 @@ exports.agregar = (req, res) =>{
         }
     );
 
-})
-}
+});
+};
+
+////////FUNCION ELIMINAR///////////////
+
+exports.eliminar = (req, res) => {
+    
+    const {id} = req.params;
+    
+    medicamentoModel.eliminar (id, (err) => {
+            
+        if (err){
+
+            console.log(err);
+
+            return res.status(500).json({
+
+                error:"Error al eliminar medicamento"
+            })
+        }
+            console.log("eliminado");
+
+            res.json({
+
+                mensaje: "Medicamento eliminado con exito"
+            });
+    });
+};
+
