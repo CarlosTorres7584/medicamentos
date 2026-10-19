@@ -67,10 +67,17 @@ async function cargarMedicamentos(){
         Cantidad: ${medicamento.cantidad}
         <br>
         Gramaje: ${medicamento.gramaje}
+
+        <br>
+        <button class="btnEditar" data-id="${medicamento.id}">
+        EDITAR
+        </button>
+
         <br>
         <button class="btnEliminar" data-id="${medicamento.id}">
         ELIMINAR
         </button>
+
         `;   
 
         const botonEliminar = elemento.querySelector('.btnEliminar');

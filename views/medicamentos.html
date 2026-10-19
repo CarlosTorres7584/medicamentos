@@ -72,6 +72,54 @@
 
     <hr>
 
+
+    <div id="formularioEdicion" style="display: none;">
+
+        <h2>Editar Medicamento</h2>
+
+        <form id="formEditarMedicamento">
+
+            <input type="hidden" id="editarId">
+
+            <label for="editarNombre">Nombre:</label>
+
+            <input 
+            type="text"
+            id="editarNombre"
+            required
+            >
+
+            <br><br>
+
+            <label for="editarGramaje">Gramaje:</label>
+            <input 
+            type="text"
+            id="editarGramaje"
+            placeholder="Ej. 500 MG"
+            required
+            >
+
+            <br><br>
+
+            <button type="sumbmit">
+                Guardar Cambios
+            </button> 
+
+            <button type="button" id=" cancelarEdicion">
+                CANCELAR
+
+            </button>
+
+        </form>
+
+        <hr>
+
+    </div>
+
+
+
+
+
     <h2>Lista de medicamentos</h2>
 
     <div id="listaMedicamentos"> 

@@ -8,9 +8,15 @@ const medicamentoController = require ("../controllers/medicamentoController");
 
 router.post('/login', auth.login);
 
-router.get('/medicamentos', verificarSesion, medicamentoController.obtenerTodos);
+router.get(
+  '/medicamentos', 
+  verificarSesion, 
+  medicamentoController.obtenerTodos);
 
-router.post('/medicamentos', verificarSesion, medicamentoController.agregar)
+router.post(
+  '/medicamentos', 
+  verificarSesion, 
+  medicamentoController.agregar)
 
 router.get('/prueba', verificarSesion, (req, res) => {
     res.json({
@@ -19,16 +25,15 @@ router.get('/prueba', verificarSesion, (req, res) => {
     });
 });
 
-router.delete('/medicamentos/:id', verificarSesion, medicamentoController.eliminar)
+router.delete(
+  '/medicamentos/:id', 
+  verificarSesion, 
+  medicamentoController.eliminar)
 
-//router.delete('/medicamentos/:id',(req, res)=>{
-//    console.log("llego el delete");
-  //  console.log("id:", req.params.id);
-//
-   // res.json({
-     //   mensaje: "delete funciona",
-       // id: req.params.id
-//    })
-//})
+router.patch(
+  '/medicamentos/:id',
+  verificarSesion,
+  medicamentoController.actualizar
+);
 
 module.exports = router;

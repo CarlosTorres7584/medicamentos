@@ -126,13 +126,89 @@ exports.eliminar = (req, res) => {
 exports.actualizar =(req, res) => {
 
     const {id} = req.params;
-    const {nombre, cantidad, gramaje} = req.body;
+    const {nombre, gramaje} = req.body;
 
     ///VERIFICA LOS CAMPOS OBLIGATORIOS
 
-    if(!nombre || cantidad === undefined || !gramaje){
+    if(
+        typeof nombre !== 'string' ||
+        nombre.trim() === '' ||
+        typeof gramaje !=='string' ||
+        gramaje.trim() === ''
+    ){
         return res.status(400).json({
-            error: "Todos los campos son obligatorios"
-        })
+            error: "Nombre y gramaje son obligatorios"
+        });
     }
+
+    //valida los datos 
+
+    const nombreLimpio = validarNombre(nombre);
+    const gramajeLimpio =validarGramaje(gramaje);
+
+    if (nombreLimpio === null){
+        return res.status(400).json ({
+            error: "El nombre solo puede tener letras y espacios"
+        });
+    }
+
+    if (gramajeLimpio === null){
+        return res.status(400).json ({
+            error: "Gramaje solo permite letras y numeros"
+        });
+    }
+
+    ///verificar que el medicamento existe
+
+    medicamentoModel.obtenerPorId(id, (err, medicamento)=> {
+        if (err){
+            return res.status(500).json ({
+                error: "Error al consultar el medicamento"
+            });
+        }
+
+        if (!medicamento) {
+            return res.status(404).json ({
+                error: "Medicamento no encontrado"
+            });
+        }
+
+        medicamentoModel.existeOtro(
+            id,
+            nombreLimpio,
+            gramajeLimpio,
+            (err, medicamentoExistente) => {
+                if (err){
+                    return res.status(500).json ({
+                        error: "Error al verificar duplicados"
+                    });
+                }
+
+                if (medicamentoExistente){
+                    return res.status(400).json({
+                        error: "Ya existe otro medicamento con ese nombre y gramaje"
+                    });
+                }
+
+     ///guardar los cambios
+
+     medicamentoModel.actualizar(
+        id,
+        nombreLimpio,
+        gramajeLimpio,
+        function (err) {
+
+            if (err){
+                return res.status(500).json ({
+                    error: "Error al actualizar el medicamento"
+                });
+            }
+            return res.json({
+                mensaje: "Medicamento actualizado"
+            });
+        }
+     )
+            }
+        )
+    })
 }

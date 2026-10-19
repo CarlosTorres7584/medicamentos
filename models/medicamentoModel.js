@@ -67,13 +67,13 @@ exports.obtenerPorId = (id, callback) => {
     );
 };
 
-exports.actualizar = (id, nombre, cantidad, gramaje, callback) => {
+exports.actualizar = (id, nombre, gramaje, callback) => {
 
     db.run(
         `UPDATE medicamentos
-        SET nombre = ?, cantidad = ?, gramaje = ?
+        SET nombre = ?, gramaje = ?
         WHERE id = ?`,
-        [nombre, cantidad, gramaje, id],
+        [nombre, gramaje, id],
         callback
     );
 };
