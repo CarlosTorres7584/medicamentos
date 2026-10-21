@@ -1,135 +1,99 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MEDICAMENTOS</title>
 
-<style>
-    .medicamento{
+    <style>
+      .medicamento {
         border: 1px solid black;
         padding: 15px;
         margin-bottom: 10px;
         border-radius: 8px;
+      }
+
+       .btnEditar,
+        .btnEliminar {
+        padding: 8px 16px;
+        font-size: 14px;
+        min-width: 100px;
+        cursor: pointer;
+        border-radius: 5px;
     }
-
-</style>
-</head>
-<body>
-
+    </style>
+  </head>
+  <body>
     <h1>MEDICAMENTOS</h1>
 
     <h2>Agregar Medicamento</h2>
 
     <form id="formMedicamento">
+      <label for="nombre"> Nombre: </label>
 
-        <label for="nombre">
-            Nombre:
-        </label>
+      <input type="text" id="nombre" name="nombre" required />
 
-        <input 
-        type="text"
-        id="nombre"
-        name="nombre"
-        required
-        >
+      <br /><br />
 
-        <br><br>
+      <label for="cantidad"> Cantidad: </label>
 
-        <label for="cantidad">
-            Cantidad:
-        </label>
+      <input type="number" id="cantidad" name="cantidad" min="1" required />
 
-        <input 
-        type="number"
-        id="cantidad"
-        name="cantidad"
-        min="1"
-        required
-        >
+      <br /><br />
 
-        <br><br>
+      <label for="gramaje"> Gramaje: </label>
 
-        <label for="gramaje">
-            Gramaje:
-        </label>
-
-        <input 
+      <input
         type="text"
         id="gramaje"
         name="gramaje"
         placeholder="Ej. 500 MG"
         required
-        >
+      />
 
-        <br><br>
+      <br /><br />
 
-        <button type="submit">
-            Agregar Medicamento.
-        </button>
-
+      <button type="submit">Agregar Medicamento.</button>
     </form>
 
-    <hr>
+    <hr />
 
+    <div id="formularioEdicion" style="display: none">
+      <h2 id="tituloEdicion">Editar Medicamento</h2>
 
-    <div id="formularioEdicion" style="display: none;">
+      <form id="formEditarMedicamento">
+        <input type="hidden" id="editarId" />
 
-        <h2>Editar Medicamento</h2>
+        <label for="editarNombre">Nombre:</label>
 
-        <form id="formEditarMedicamento">
+        <input type="text" id="editarNombre" required />
 
-            <input type="hidden" id="editarId">
+        <br /><br />
 
-            <label for="editarNombre">Nombre:</label>
+        <label for="editarGramaje">Gramaje:</label>
+        <input
+          type="text"
+          id="editarGramaje"
+          placeholder="Ej. 500 MG"
+          required
+        />
 
-            <input 
-            type="text"
-            id="editarNombre"
-            required
-            >
+        <br /><br />
 
-            <br><br>
+        <button type="sumbmit">Guardar Cambios</button>
 
-            <label for="editarGramaje">Gramaje:</label>
-            <input 
-            type="text"
-            id="editarGramaje"
-            placeholder="Ej. 500 MG"
-            required
-            >
+        <button type="button" id=" cancelarEdicion">CANCELAR</button>
+      </form>
 
-            <br><br>
-
-            <button type="sumbmit">
-                Guardar Cambios
-            </button> 
-
-            <button type="button" id=" cancelarEdicion">
-                CANCELAR
-
-            </button>
-
-        </form>
-
-        <hr>
-
+      <hr />
     </div>
-
-
-
-
 
     <h2>Lista de medicamentos</h2>
 
-    <div id="listaMedicamentos"> 
-        Cargando medicamentos...
-    </div>
-    
+    <div id="listaMedicamentos">Cargando medicamentos...</div>
+
     <!-- <script src="medicamentos.js"></script> -->
-    
-   <script src="medicamentos.js?v=3"></script>
 
-
-</body>
+    <script src="medicamentos.js?v=3"></script>
+  </body>
 </html>

@@ -1,31 +1,29 @@
 console.log("estoy ejecutando este archivo");
 
-const form = document.querySelector('#formMedicamento')
+const form = document.querySelector("#formMedicamento");
 
 ////ENVIA LOS MEDICAMENTOS AL SQL
-form.addEventListener('submit', async (event) => {
-    
+form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const nombre = document.querySelector('#nombre').value;
+    const nombre = document.querySelector("#nombre").value;
 
-    const cantidad = document.querySelector('#cantidad').value;
+    const cantidad = document.querySelector("#cantidad").value;
 
-    const gramaje = document.querySelector('#gramaje').value;
+    const gramaje = document.querySelector("#gramaje").value;
 
     const medicamento = {
         nombre: nombre,
         cantidad: cantidad,
-        gramaje: gramaje
+        gramaje: gramaje,
     };
 
-
-    const respuesta = await fetch('/medicamentos', {
-        method: 'POST',
-        headers:{
-            'Content-type': 'application/json'
+    const respuesta = await fetch("/medicamentos", {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json",
         },
-        body: JSON.stringify(medicamento)
+        body: JSON.stringify(medicamento),
     });
 
     const resultado = await respuesta.json();
@@ -35,31 +33,26 @@ form.addEventListener('submit', async (event) => {
     console.log("antes reset");
 
     form.reset();
-    
-    console.log("despues");    
+
+    console.log("despues");
 
     cargarMedicamentos();
-
-  
 });
 
-
 //////ENVIA EL LISTADO DE MEDICAMENTOS DESDE SQL AL HTML
-async function cargarMedicamentos(){
-
-    const respuesta = await fetch('/medicamentos');
+async function cargarMedicamentos() {
+    const respuesta = await fetch("/medicamentos");
 
     const medicamentos = await respuesta.json();
 
-    const lista = document.querySelector('#listaMedicamentos');
+    const lista = document.querySelector("#listaMedicamentos");
 
-    lista.innerHTML = ''; //limpia la lista 
+    lista.innerHTML = ""; //limpia la lista
 
     medicamentos.forEach((medicamento) => {
+        const elemento = document.createElement("div");
 
-        const elemento = document.createElement('div');
-
-        elemento.className = 'medicamento';
+        elemento.className = "medicamento";
 
         elemento.innerHTML = `
         <strong>${medicamento.nombre}</strong>
@@ -67,43 +60,92 @@ async function cargarMedicamentos(){
         Cantidad: ${medicamento.cantidad}
         <br>
         Gramaje: ${medicamento.gramaje}
+        <br><br>
 
-        <br>
-        <button class="btnEditar" data-id="${medicamento.id}">
+        <div class = "editorTarjeta" style="display: none;">
+
+        <label>NOMBRE:</label>
+        <input
+                type="text"
+                class="editarNombre"
+                value="${medicamento.nombre}"
+                >
+
+        <br><br>
+
+        <label>GRAMAJE</label>
+        <input
+            type="text"
+            class="editarGramaje"
+            value="${medicamento.gramaje}"
+            >
+
+        <br><br>
+
+        <button type="button" class="btnGardarCambios">
+        GUARDAR
+        </BUTTON>
+        <br><br>
+
+        <button type="button" class="btnCancelarEdicion">
+        CANCELAR
+        </button>
+        <br><br>
+
+        </div>
+
+        <button type="button" class="btnEditar" data-id="${medicamento.id}">
         EDITAR
         </button>
 
-        <br>
-        <button class="btnEliminar" data-id="${medicamento.id}">
+        <br><br>
+
+        <button type="button" class="btnEliminar" data-id="${medicamento.id}">
         ELIMINAR
         </button>
+       
+    `;
 
-        `;   
+        /// ===== EVENTOS DE LOS BOTONES EDITAR Y ELIMINAR=========
 
-        const botonEliminar = elemento.querySelector('.btnEliminar');
-        botonEliminar.addEventListener('click', async () => {
+        //===== BOTON EDITAR==========
+
+        const botonEditar = elemento.querySelector(".btnEditar");
+
+        botonEditar.addEventListener("click", () => {
+            document.querySelector(".editorTarjeta").style.display = "block";
+
+            document.querySelector("#editarId").value = medicamento.id;
+
+            document.querySelector("#tituloEdicion").textContent =
+                `Editar Medicamento: ${medicamento.nombre}`;
+            document.querySelector("#editarNombre").value = medicamento.nombre;
+            document.querySelector("#editarGramaje").value = medicamento.gramaje;
+        });
+
+        //======= BOTON ELIMINAR=============
+
+        const botonEliminar = elemento.querySelector(".btnEliminar");
+        botonEliminar.addEventListener("click", async () => {
             const id = botonEliminar.dataset.id;
 
             console.log("id:", id);
-            console.log("url:",`/medicamentos/${id}`);
-            const respuesta = await fetch(`/medicamentos/${id}`,{
-                method: 'DELETE'
+            console.log("url:", `/medicamentos/${id}`);
+            const respuesta = await fetch(`/medicamentos/${id}`, {
+                method: "DELETE",
             });
 
             const resultado = await respuesta.json();
 
             console.log(resultado);
 
-            cargarMedicamentos();        
+            cargarMedicamentos();
         });
 
-        lista.appendChild(elemento);  
-        
-        
+        lista.appendChild(elemento);
     });
 
     console.log(medicamentos);
 }
-
 
 cargarMedicamentos();
